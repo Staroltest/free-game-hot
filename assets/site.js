@@ -66,37 +66,11 @@
       if (okCat && okQ) { shown++; }
     });
     if (noResult) { noResult.hidden = shown !== 0; }
-    var sc2 = $('#searchCount');
-    if (sc2) {
-      sc2.textContent = (q || (cat && cat !== 'all'))
-        ? (document.documentElement.lang === 'en' ? shown + ' result' + (shown === 1 ? '' : 's') : '找到 ' + shown + ' 款')
-        : '';
-    }
     $$('.tabs .chip').forEach(function (c) {
       c.classList.toggle('on', c.getAttribute('data-filter') === (cat || 'all'));
     });
     return shown;
   }
-  /* ---- sort (all page) ---- */
-  $$('[data-sort]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var list = $('#feedList'); if (!list) { return; }
-      $$('[data-sort]').forEach(function (x) { x.classList.toggle('on', x === b); });
-      var items = $$('.feed-item', list);
-      var mode = b.getAttribute('data-sort');
-      items.sort(function (a, c) {
-        if (mode === 'source') {
-          var k = a.getAttribute('data-category') + '|' + (a.getAttribute('data-deadline') || 'zzz');
-          var k2 = c.getAttribute('data-category') + '|' + (c.getAttribute('data-deadline') || 'zzz');
-          return k < k2 ? -1 : (k > k2 ? 1 : 0);
-        }
-        var d1 = a.getAttribute('data-deadline') || 'zzz';
-        var d2 = c.getAttribute('data-deadline') || 'zzz';
-        return d1 < d2 ? -1 : (d1 > d2 ? 1 : 0);
-      });
-      items.forEach(function (it) { list.appendChild(it); });
-    });
-  });
   $$('.chip[data-filter]').forEach(function (c) {
     c.addEventListener('click', function () {
       var f = c.getAttribute('data-filter');
@@ -138,41 +112,8 @@
     if (e.key === 'Escape') { closeOverlay(); }
   });
 
-  /* ---- search overlay: full search over all games in #gamesData ---- */
+  /* ---- search overlay ---- */
   var overlay = $('#searchOverlay');
-  function getGames() {
-    var el = $('#gamesData'); if (!el) { return []; }
-    try { return JSON.parse(el.textContent || '[]'); } catch (e) { return []; }
-  }
-  function escHtml(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-  function searchGames(q) {
-    q = (q || '').trim().toLowerCase();
-    if (!q) { return []; }
-    return getGames().filter(function (g) {
-      return ((g.title || '') + ' ' + (g.summary || '') + ' ' + (g.source || '') + ' ' + (g.category || ''))
-        .toLowerCase().indexOf(q) !== -1;
-    });
-  }
-  function renderOverlayResults(q) {
-    var sec = $('#overlayResultsSec'), box = $('#overlayResults');
-    if (!sec || !box) { return; }
-    var results = searchGames(q);
-    var base = (overlay && overlay.getAttribute('data-base')) || '';
-    var en = document.documentElement.lang === 'en';
-    if (!q || !q.trim()) { sec.hidden = true; box.innerHTML = ''; return; }
-    sec.hidden = false;
-    if (!results.length) {
-      box.innerHTML = '<p class="more-note">' + (en ? 'No results for "' + escHtml(q) + '".' : '没有找到“' + escHtml(q) + '”相关的内容。') + '</p>';
-      return;
-    }
-    box.innerHTML = '<p class="more-note">' + results.length + (en ? ' result' + (results.length === 1 ? '' : 's') : ' 款') + '</p>' +
-      results.map(function (g) {
-        return '<div class="recent-row"><a href="' + base + 'items/' + g.id + '.html"><b>' + escHtml(g.title) + '</b><br>' +
-          escHtml(g.summary) + '<br><span class="more-note">' + escHtml(g.source) + ' · ' + escHtml(g.claim_by) + '</span></a></div>';
-      }).join('');
-  }
   function openOverlay() {
     if (!overlay) { return; }
     overlay.hidden = false;
@@ -193,8 +134,9 @@
     $$('[data-recent]', list).forEach(function (b) {
       b.addEventListener('click', function () {
         var q = b.getAttribute('data-recent');
-        var o = $('#overlaySearch'); if (o) { o.value = q; }
-        renderOverlayResults(q);
+        closeOverlay();
+        var s = $('#siteSearch'); if (s) { s.value = q; }
+        applyFilter('all', q);
       });
     });
   }
@@ -202,7 +144,6 @@
   if (overlaySearch) {
     overlaySearch.addEventListener('input', function () {
       var q = overlaySearch.value.trim();
-      renderOverlayResults(q);
       if (q) {
         var items = getRecent().filter(function (x) { return x !== q; });
         items.unshift(q);
@@ -212,29 +153,21 @@
     overlaySearch.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
         var q = overlaySearch.value.trim();
-        var first = searchGames(q)[0];
-        if (first) {
-          var base = (overlay && overlay.getAttribute('data-base')) || '';
-          location.href = base + 'items/' + first.id + '.html';
-          return;
-        }
         closeOverlay();
         var s = $('#siteSearch'); if (s) { s.value = q; }
         applyFilter('all', q);
       }
     });
     var osc = $('#overlaySearchClear');
-    if (osc) { osc.addEventListener('click', function () { overlaySearch.value = ''; renderOverlayResults(''); overlaySearch.focus(); }); }
+    if (osc) { osc.addEventListener('click', function () { overlaySearch.value = ''; overlaySearch.focus(); }); }
   }
   var clr = $('#clearRecent');
   if (clr) { clr.addEventListener('click', function () { try { localStorage.removeItem(RECENT_KEY); } catch (e) {} renderRecent(); }); }
   $$('.overlay-cats .chip').forEach(function (c) {
     c.addEventListener('click', function () {
-      // Go to All Items filtered by this category (the overlay only
-      // filters the current page, so navigating is the honest behaviour).
-      var allLink = document.querySelector('a[href$="all.html"]');
-      var href = allLink ? allLink.getAttribute('href') : 'all.html';
-      location.href = href + '#' + c.getAttribute('data-filter');
+      closeOverlay();
+      applyFilter(c.getAttribute('data-filter'), '');
+      var idx = $('#siteSearch'); if (idx) { idx.scrollIntoView({ block: 'center' }); }
     });
   });
 
@@ -248,15 +181,7 @@
     });
     var sc = $('#starCount'); if (sc) { sc.textContent = list.length ? ' ' + list.length : ''; }
     var sci = $('#starCountInline'); if (sci) { sci.textContent = list.length ? list.length + (document.documentElement.lang === 'en' ? ' saved' : ' 条已收藏') : (document.documentElement.lang === 'en' ? '0 saved' : '暂无收藏'); }
-    var stc = $('#starredCount'); if (stc) { stc.textContent = list.length ? (document.documentElement.lang === 'en' ? list.length + ' saved' : '已收藏 ' + list.length + ' 款') : (document.documentElement.lang === 'en' ? '0 saved' : '暂无收藏'); }
   }
-  $$('[data-clear-stars]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      setStars([]);
-      refreshStars();
-      location.reload();
-    });
-  });
   $$('.star-btn[data-star]').forEach(function (b) {
     b.addEventListener('click', function () {
       var id = b.getAttribute('data-star');
