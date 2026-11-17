@@ -3,9 +3,48 @@
 > A weekly free-games claim calendar: Epic weekly free games, Prime monthly claims, and Steam and GOG freebies, sorted by deadline.
 
 ## Pages
-- https://staroltest.github.io/free-game-hot/
-- https://staroltest.github.io/free-game-hot/en/
+- https://staroltest.github.io/free-game-hot/index.html
+- https://staroltest.github.io/free-game-hot/all.html
+- https://staroltest.github.io/free-game-hot/hot.html
+- https://staroltest.github.io/free-game-hot/daily.html
+- https://staroltest.github.io/free-game-hot/weekly.html
+- https://staroltest.github.io/free-game-hot/monthly.html
+- https://staroltest.github.io/free-game-hot/topics.html
+- https://staroltest.github.io/free-game-hot/starred.html
+- https://staroltest.github.io/free-game-hot/more.html
 - https://staroltest.github.io/free-game-hot/about.html
+- https://staroltest.github.io/free-game-hot/changelog.html
+- https://staroltest.github.io/free-game-hot/404.html
+- https://staroltest.github.io/free-game-hot/geo-audit.html
+- https://staroltest.github.io/free-game-hot/daily/2026-11-17.html
+- https://staroltest.github.io/free-game-hot/daily/archive.html
+- https://staroltest.github.io/free-game-hot/weekly/2026-W47.html
+- https://staroltest.github.io/free-game-hot/monthly/2026-11.html
+- https://staroltest.github.io/free-game-hot/topics/epic.html
+- https://staroltest.github.io/free-game-hot/topics/prime.html
+- https://staroltest.github.io/free-game-hot/topics/steam-gog.html
+- https://staroltest.github.io/free-game-hot/en/index.html
+- https://staroltest.github.io/free-game-hot/en/all.html
+- https://staroltest.github.io/free-game-hot/en/hot.html
+- https://staroltest.github.io/free-game-hot/en/daily.html
+- https://staroltest.github.io/free-game-hot/en/weekly.html
+- https://staroltest.github.io/free-game-hot/en/monthly.html
+- https://staroltest.github.io/free-game-hot/en/topics.html
+- https://staroltest.github.io/free-game-hot/en/starred.html
+- https://staroltest.github.io/free-game-hot/en/more.html
+- https://staroltest.github.io/free-game-hot/en/about.html
+- https://staroltest.github.io/free-game-hot/en/changelog.html
+- https://staroltest.github.io/free-game-hot/en/404.html
+- https://staroltest.github.io/free-game-hot/en/geo-audit.html
+- https://staroltest.github.io/free-game-hot/en/daily/2026-11-17.html
+- https://staroltest.github.io/free-game-hot/en/daily/archive.html
+- https://staroltest.github.io/free-game-hot/en/weekly/2026-W47.html
+- https://staroltest.github.io/free-game-hot/en/monthly/2026-11.html
+- https://staroltest.github.io/free-game-hot/en/topics/epic.html
+- https://staroltest.github.io/free-game-hot/en/topics/prime.html
+- https://staroltest.github.io/free-game-hot/en/topics/steam-gog.html
 
 ## Rules
 - Only titles, one-line summaries written in our own words, and links. No store descriptions republished.
+- English pages contain no Chinese.
+- Claim conditions and deadlines are as shown on the store pages.
