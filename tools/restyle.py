@@ -25,7 +25,7 @@ DEALS = json.loads((ROOT / "data" / "deals.json").read_text(encoding="utf-8"))
 SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 17, 10, 0, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 17, 17, 10, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
@@ -627,7 +627,7 @@ def build_index(lang, base, rel_path):
     featured = [by_id[i] for i in FEATURED_IDS]
     sel_html = "".join(feed_item(g, lang, badge=True, base=base) for g in featured)
     rule = (f'{esc(L(lang, "精选 = 快到期 + 每轮头牌，共 4 款。", "Featured = expiring soonest + each rotation’s headliner, 4 picks."))} '
-            f'<a href="{base}all.html">{esc(L(lang, "查看全部 13 款 →", "See all 13 games →"))}</a>')
+            f'<a href="{base}all.html">{esc(L(lang, f"查看全部 {len(games)} 款 →", f"See all {len(games)} games →"))}</a>')
     hot_html = "".join(hot_row(g, i + 1, lang, base) for i, g in enumerate(hot5))
     hot_more = (f'<a class="hot-more" href="{base}hot.html">'
                 f'{esc(L(lang, "完整榜单", "Full ranking"))} <span aria-hidden="true">→</span></a>') if len(claimable) > 5 else ""
@@ -733,12 +733,13 @@ def build_monthly(lang, base, rel_path):
         return d.date().isoformat()[:7] if d else None
     nov = [g for g in games if month_of(g) == "2026-11"]
     dec = [g for g in games if month_of(g) == "2026-12"]
+    jan = [g for g in games if month_of(g) == "2027-01"]
     tbc = [g for g in games if month_of(g) is None]
     title = (f'{SITE["title_en"]} · Monthly' if lang == "en" else f'{SITE["title"]} · 月报')
     desc = SITE["description_en"] if lang == "en" else SITE["description"]
-    lede = (f'November 2026<span class="lede-rest"> · {len(nov)} games expire in November, {len(dec)} in December, {len(tbc)} deadlines not published yet.</span>'
+    lede = (f'November 2026<span class="lede-rest"> · {len(nov)} games expire in November, {len(dec)} in December, {len(jan)} in January 2027, {len(tbc)} deadlines not published yet.</span>'
             if lang == "en" else
-            f'2026年11月<span class="lede-rest"> · 11 月截止 {len(nov)} 款，12 月截止 {len(dec)} 款，{len(tbc)} 款截止时间尚未公布。</span>')
+            f'2026年11月<span class="lede-rest"> · 11 月截止 {len(nov)} 款，12 月截止 {len(dec)} 款，2027 年 1 月截止 {len(jan)} 款，{len(tbc)} 款截止时间尚未公布。</span>')
     body = (f'<div class="m-title">{esc(L(lang, "月报", "Monthly"))}</div>'
             f'<h1>{esc(L(lang, "月报", "Monthly"))}</h1>'
             f'<p class="lede">{lede}</p>'
@@ -746,6 +747,8 @@ def build_monthly(lang, base, rel_path):
             + "".join(feed_item(g, lang, base=base) for g in nov)
             + f'<h2 class="sec">{esc(L(lang, "12 月截止", "Expiring in December"))}</h2>'
             + "".join(feed_item(g, lang, base=base) for g in dec)
+            + f'<h2 class="sec">{esc(L(lang, "2027 年 1 月截止", "Expiring in January 2027"))}</h2>'
+            + "".join(feed_item(g, lang, base=base) for g in jan)
             + f'<h2 class="sec">{esc(L(lang, "截止时间待公布", "Deadline not published yet"))}</h2>'
             + "".join(feed_item(g, lang, base=base) for g in tbc)
             + f'<script type="application/json" id="gamesData">{games_data_json(games, lang)}</script>')
@@ -908,11 +911,13 @@ def build_simple(lang, base, rel_path, active, mtitle, paras):
 
 def build_changelog(lang, base, rel_path):
     if lang == "en":
-        entries = [("2026-11-17", "Added Steam big deals: 14 verified deals, up to 85% off — SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23."),
+        entries = [("2026-11-17", "Added 4 Prime games missed from the October batch: Trash Goblin, Time Travel: Escape Room Game, Caravan SandWitch and WarBreeds — each deadline checked on the Luna claims pages."),
+                   ("2026-11-17", "Added Steam big deals: 14 verified deals, up to 85% off — SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23."),
                    ("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
                    ("2026-11-17", "Launched with 13 games: Epic weekly free games, Prime monthly claims, Steam / GOG freebies.")]
     else:
-        entries = [("2026-11-17", "新增 Steam 大折扣：14 款逐一核实过的折扣，最高 85% off，SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。"),
+        entries = [("2026-11-17", "补上 10 月批次遗漏的 4 款 Prime 游戏：Trash Goblin、Time Travel: Escape Room Game、Caravan SandWitch、WarBreeds，截止日已在 Luna 领取页逐一核实。"),
+                   ("2026-11-17", "新增 Steam 大折扣：14 款逐一核实过的折扣，最高 85% off，SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。"),
                    ("2026-11-17", "排版改回模板样式：侧栏、顶栏、底栏、卡片、热点榜。"),
                    ("2026-11-17", "上线：13 款游戏，Epic 每周免费、Prime 每月领取、Steam / GOG 限免。")]
     title = (f'{SITE["title_en"]} · Changelog' if lang == "en" else f'{SITE["title"]} · 更新日志')
