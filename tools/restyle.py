@@ -21,14 +21,21 @@ from template_assets import ICONS, LOGO_SVG
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CFG = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
 GAMES = json.loads((ROOT / "data" / "games.json").read_text(encoding="utf-8"))
+DEALS = json.loads((ROOT / "data" / "deals.json").read_text(encoding="utf-8"))
 SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 # Data snapshot time; days-left is computed against it, never invented.
 NOW = datetime(2026, 11, 17, 10, 0, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
-CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog")}
+CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
 CAT_ORDER = ["epic", "prime", "steam_gog"]
+DEALS_CAT = CATS["steam_deals"]
+EVENTS = {e["id"]: e for e in DEALS["events"]}
+
+# Featured picks: soonest to expire first, plus each rotation's headliner — exactly 4.
+FEATURED_IDS = ["vampire-swansong-prime", "knightica-epic",
+                "alien-isolation-epic", "jurassic-world-evolution-2-prime"]
 
 
 def esc(s):
@@ -169,6 +176,91 @@ def hot_row(g, rank, lang, base=""):
     return (f'<li><a class="hot-row" href="{base}items/{esc(g["id"])}.html">'
             f'<span class="rank {cls}">{rank}</span>'
             f'<span class="t">{esc(g["title"])}</span>{heat}</a></li>')
+
+
+# ---- Steam big deals (data/deals.json; prices from the Steam store,
+#      end dates per-app from SteamDB; never invent a date) ----
+
+def deal_ends_dt(d):
+    return datetime.fromisoformat(d["ends"] + "T23:59:00+00:00")
+
+
+def deal_days_left(d):
+    delta = (deal_ends_dt(d) - NOW).total_seconds()
+    if delta <= 0:
+        return 0
+    return int(-(-delta // 86400))  # ceil
+
+
+def deal_event_name(d, lang):
+    ev = EVENTS.get(d["event"])
+    if not ev:
+        return ""
+    return ev.get("name_en") or ev["name"] if lang == "en" else ev["name"]
+
+
+def deal_claim_by_text(d, lang):
+    return L(lang, f'截止 {d["ends_label"]}', f'Ends {d["ends_label"]}')
+
+
+def deal_reason(d, lang):
+    saved = d["original"] - d["price"]
+    ev = deal_event_name(d, lang)
+    if lang == "en":
+        return (f'Was ${d["original"]:.2f}, now ${d["price"]:.2f} — save ${saved:.2f}. '
+                f'{ev + ", " if ev else ""}ends {d["ends_label"]}.')
+    return (f'原价 ${d["original"]:.2f}，现价 ${d["price"]:.2f}，省 ${saved:.2f}。'
+            f'{ev + "，"}截止 {d["ends_label"]}。')
+
+
+def deal_item(d, lang, base=""):
+    tier = "t-hot" if d["discount"] >= 75 else ("t-acc" if d["discount"] >= 65 else "t-quiet")
+    pill = (f'<span class="score-pill {tier}" title="{esc(L(lang, "折扣", "Discount"))} -{d["discount"]}%">'
+            f'<span class="lbl">-{d["discount"]}%</span><span class="sep"></span>'
+            f'<span class="num">${d["price"]:.2f}</span></span>')
+    cat_label = DEALS_CAT.get("label_en") or DEALS_CAT["label"] if lang == "en" else DEALS_CAT["label"]
+    summary = d["en_summary"] if lang == "en" else d["zh_summary"]
+    src = f'Steam · {deal_event_name(d, lang)}' if deal_event_name(d, lang) else "Steam"
+    dl_iso = d["ends"] + "T23:59:00Z"
+    when = deal_claim_by_text(d, lang)
+    return (
+        f'<article class="feed-item" data-id="{esc(d["id"])}" data-category="steam_deals">'
+        f'<header class="fi-head"><span class="src">{esc(src)}</span>'
+        f'<span class="sp">{pill}'
+        f'<button type="button" class="star-btn" data-star="{esc(d["id"])}" aria-label="{esc(L(lang, "收藏", "Save"))}" title="{esc(L(lang, "收藏", "Save"))}">'
+        f'{icon("bookmark", 16)}</button></span></header>'
+        f'<h2><a href="{base}items/{esc(d["id"])}.html">{esc(d["title"])}</a></h2>'
+        f'<p class="sum">{esc(summary)}</p>'
+        f'<div class="fi-tags"><a class="tag" href="{base}topics/steam-deals.html">#{esc(cat_label)}</a></div>'
+        f'<div class="fi-foot"><button type="button" class="chip cat" data-filter="steam_deals">{esc(cat_label)}</button>'
+        f'<span class="when" data-deadline="{esc(dl_iso)}">{esc(when)}</span>'
+        f'<a class="chip" href="{esc(d["link"])}" target="_blank" rel="noopener">{esc(L(lang, "去 Steam 购买", "Buy on Steam"))} →</a></div>'
+        f'<p class="fi-reason">{esc(L(lang, "推荐理由：", "Why this: "))}{esc(deal_reason(d, lang))}</p>'
+        f'</article>')
+
+
+def deals_data_json(lang):
+    return json.dumps([
+        {"id": d["id"], "title": d["title"],
+         "summary": d["en_summary"] if lang == "en" else d["zh_summary"],
+         "source": "Steam", "link": d["link"],
+         "claim_by": deal_claim_by_text(d, lang), "category": "steam_deals"}
+        for d in DEALS["deals"]], ensure_ascii=False)
+
+
+def all_data_json(games, lang):
+    """games + deals in the search/starred data shape."""
+    g = json.loads(games_data_json(games, lang))
+    d = json.loads(deals_data_json(lang))
+    return json.dumps(g + d, ensure_ascii=False)
+
+
+def deals_block(lang, base):
+    n = len(DEALS["deals"])
+    return (f'<h2 class="sec">{esc(L(lang, "Steam 大折扣", "Steam big deals"))}</h2>'
+            f'<p>{esc(L(lang, f"本周 Steam 大折扣 {n} 款，最高 85% off：SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。价格以 Steam 商店为准（美元），每款的截止日逐一核实过。",
+                         f"{n} Steam big deals this week, up to 85% off: SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23. Prices are from the Steam store (USD); every deal's end date was checked."))} '
+            f'<a href="{base}topics/steam-deals.html">{esc(L(lang, f"查看全部 {n} 款折扣 →", f"See all {n} deals →"))}</a></p>')
 
 
 # ---- shell (mirrors the template's sidebar/rail/topbar/tabbar/footer) ----
@@ -531,13 +623,18 @@ def build_index(lang, base, rel_path):
             if lang == "en" else
             f'更新于 {esc(UPDATED)}（北京时间）<span class="lede-rest"> · 共 {len(games)} 款在列 · 现在能领 {len(claimable)} 款 · '
             f'只显示标题与摘要，点击标题查看详情，详情页里有原文链接。</span>')
-    sel_html = "".join(feed_item(g, lang, badge=True, base=base) for g in claimable)
+    by_id = {g["id"]: g for g in games}
+    featured = [by_id[i] for i in FEATURED_IDS]
+    sel_html = "".join(feed_item(g, lang, badge=True, base=base) for g in featured)
+    rule = (f'{esc(L(lang, "精选 = 快到期 + 每轮头牌，共 4 款。", "Featured = expiring soonest + each rotation’s headliner, 4 picks."))} '
+            f'<a href="{base}all.html">{esc(L(lang, "查看全部 13 款 →", "See all 13 games →"))}</a>')
     hot_html = "".join(hot_row(g, i + 1, lang, base) for i, g in enumerate(hot5))
     hot_more = (f'<a class="hot-more" href="{base}hot.html">'
                 f'{esc(L(lang, "完整榜单", "Full ranking"))} <span aria-hidden="true">→</span></a>') if len(claimable) > 5 else ""
     body = (f'<div class="m-title">{esc(L(lang, "精选", "Featured"))}</div>'
             f'<h1>{esc(L(lang, "精选", "Featured"))}</h1>'
             f'<p class="lede">{lede}</p>'
+            f'<p class="lede">{rule}</p>'
             f'{filter_row(lang, base)}'
             f'{search_overlay(lang, base, hot5)}'
             f'{sel_html}'
@@ -547,6 +644,7 @@ def build_index(lang, base, rel_path):
             f'<h2 class="sec">{esc(L(lang, "按截止时间", "By deadline"))}</h2>'
             f'{day_sections(sorted_all(games), lang, base)}'
             f'{steam_gog_note(lang, base)}'
+            f'{deals_block(lang, base)}'
             f'{why_section(lang)}'
             f'<script type="application/json" id="gamesData">{games_data_json(games, lang)}</script>')
     return page_open("featured", title, desc, base, lang, rel_path) + body + page_close("featured", base, lang)
@@ -671,10 +769,65 @@ def build_topics(lang, base, rel_path):
                         f'<p>{esc(L(lang, "本周暂无。", "Nothing this week."))}</p>')
     body = (f'<div class="m-title">{esc(L(lang, "主题", "Topics"))}</div>'
             f'<h1>{esc(L(lang, "主题", "Topics"))}</h1>'
-            f'<p class="lede">{esc(L(lang, "按来源浏览：Epic、Prime、Steam / GOG。", "Browse by source: Epic, Prime, Steam / GOG."))}</p>'
+            f'<p class="lede">{esc(L(lang, "按来源浏览：Epic、Prime、Steam / GOG、Steam 大折扣。", "Browse by source: Epic, Prime, Steam / GOG, Steam big deals."))}</p>'
             + "".join(secs)
+            + f'<h2 class="sec" id="steam_deals">{esc(DEALS_CAT.get("label_en") or DEALS_CAT["label"] if lang == "en" else DEALS_CAT["label"])} · {len(DEALS["deals"])}</h2>'
+            f'<p>{esc(L(lang, "本周 Steam 大折扣 14 款，最高 85% off：SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。价格以 Steam 商店为准（美元），每款的截止日逐一核实过。",
+                         "14 Steam big deals this week, up to 85% off: SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23. Prices are from the Steam store (USD); every deal's end date was checked."))} '
+            f'<a href="{base}topics/steam-deals.html">{esc(L(lang, "查看全部 14 款折扣 →", "See all 14 deals →"))}</a></p>'
             + f'<script type="application/json" id="gamesData">{games_data_json(games, lang)}</script>')
     return page_open("more", title, desc, base, lang, rel_path) + body + page_close("more", base, lang)
+
+
+def build_deals_topic(lang, base, rel_path):
+    deals = DEALS["deals"]
+    title = (f'{SITE["title_en"]} · Steam Big Deals' if lang == "en" else f'{SITE["title"]} · Steam 大折扣')
+    desc = (f'Steam big deals this week: {len(deals)} deals, up to 85% off. Prices from the Steam store (USD); every end date checked.'
+            if lang == "en" else
+            f'本周 Steam 大折扣：{len(deals)} 款，最高 85% off。价格以 Steam 商店为准（美元），每款截止日逐一核实过。')
+    lede = (f'Updated {esc(UPDATED)} (Beijing time)<span class="lede-rest"> · {len(deals)} deals, up to 85% off.</span>'
+            if lang == "en" else
+            f'更新于 {esc(UPDATED)}（北京时间）<span class="lede-rest"> · 共 {len(deals)} 款，最高 85% off。</span>')
+    ev_lines = "".join(
+        f'<p>{esc(ev.get("name_en") or ev["name"] if lang == "en" else ev["name"])} — '
+        f'{esc(ev.get("note_en") or ev["note"] if lang == "en" else ev["note"])}</p>'
+        for ev in DEALS["events"])
+    note = (f'<p>{esc(L(lang, "价格以 Steam 商店为准（美元）；每款折扣与截止日都在 Steam 商店与 SteamDB 上逐一核对过。注意：Steam 秋季特卖已于 10 月 8 日结束，11 月没有秋季特卖，本页不写任何秋季特卖日期。",
+                         "Prices are from the Steam store (USD); every discount and end date was checked against the Steam store and SteamDB. Note: the Steam Autumn Sale ended Oct 8 — there is no Autumn Sale in November, and no Autumn Sale dates appear on this page."))}</p>')
+    group_defs = [
+        ("sega-black-friday", None),
+        ("auto-battler-fest", None),
+        ("other", L(lang, "本周其他大折扣", "More big discounts this week")),
+    ]
+    secs = []
+    for ev_id, other_label in group_defs:
+        gs = [d for d in deals if d["event"] == ev_id]
+        if not gs:
+            continue
+        ev = EVENTS.get(ev_id)
+        label = other_label or (ev.get("name_en") or ev["name"] if lang == "en" else ev["name"])
+        secs.append(f'<h2 class="sec" id="{esc(ev_id)}">{esc(label)} · {len(gs)}</h2>'
+                    + "".join(deal_item(d, lang, base=base) for d in gs))
+    body = (f'<div class="m-title">{esc(L(lang, "Steam 大折扣", "Steam Big Deals"))}</div>'
+            f'<h1>{esc(L(lang, "Steam 大折扣", "Steam Big Deals"))}</h1>'
+            f'<p class="lede">{lede}</p>'
+            f'{ev_lines}{note}'
+            + "".join(secs)
+            + f'<script type="application/json" id="gamesData">{deals_data_json(lang)}</script>')
+    return page_open("more", title, desc, base, lang, rel_path) + body + page_close("more", base, lang)
+
+
+def build_deal_item(d, lang, base, rel_path):
+    title = f'{d["title"]} · {SITE["title_en"] if lang == "en" else SITE["title"]}'
+    desc = d["en_summary"] if lang == "en" else d["zh_summary"]
+    body = (f'<div class="m-title">{esc(d["title"])}</div>'
+            + deal_item(d, lang, base=base)
+            + f'<p><a class="chip" href="{esc(d["link"])}" target="_blank" rel="noopener">{esc(L(lang, "去 Steam 购买", "Buy on Steam"))} · Steam →</a> '
+            f'<a class="chip" href="{base}topics/steam-deals.html">{esc(L(lang, "全部 Steam 大折扣", "All Steam big deals"))}</a> '
+            f'<a class="chip" href="{base}index.html">{esc(L(lang, "回首页", "Back to home"))}</a></p>'
+            f'<p>{esc(L(lang, "价格与截止时间以 Steam 商店页面为准。", "Prices and deadlines are as shown on the Steam store page."))}</p>'
+            f'<script type="application/json" id="gamesData">{deals_data_json(lang)}</script>')
+    return page_open("", title, desc, base, lang, rel_path) + body + page_close("", base, lang)
 
 
 def build_starred(lang, base, rel_path):
@@ -688,7 +841,7 @@ def build_starred(lang, base, rel_path):
             f'<h3 class="empty-title">{esc(L(lang, "还没有收藏。", "Nothing saved yet."))}</h3>'
             f'<p class="empty-text">{esc(L(lang, "去精选里点一颗星试试。", "Go to Featured and tap a star."))}</p>'
             f'<div class="empty-actions"><a class="empty-btn primary" href="{base}index.html">{esc(L(lang, "去看精选", "See featured"))}</a></div></div>'
-            f'<script type="application/json" id="gamesData">{games_data_json(GAMES["games"], lang)}</script>')
+            f'<script type="application/json" id="gamesData">{all_data_json(GAMES["games"], lang)}</script>')
     return page_open("starred", title, desc, base, lang, rel_path) + body + page_close("starred", base, lang)
 
 
@@ -755,10 +908,12 @@ def build_simple(lang, base, rel_path, active, mtitle, paras):
 
 def build_changelog(lang, base, rel_path):
     if lang == "en":
-        entries = [("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
+        entries = [("2026-11-17", "Added Steam big deals: 14 verified deals, up to 85% off — SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23."),
+                   ("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
                    ("2026-11-17", "Launched with 13 games: Epic weekly free games, Prime monthly claims, Steam / GOG freebies.")]
     else:
-        entries = [("2026-11-17", "排版改回模板样式：侧栏、顶栏、底栏、卡片、热点榜。"),
+        entries = [("2026-11-17", "新增 Steam 大折扣：14 款逐一核实过的折扣，最高 85% off，SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。"),
+                   ("2026-11-17", "排版改回模板样式：侧栏、顶栏、底栏、卡片、热点榜。"),
                    ("2026-11-17", "上线：13 款游戏，Epic 每周免费、Prime 每月领取、Steam / GOG 限免。")]
     title = (f'{SITE["title_en"]} · Changelog' if lang == "en" else f'{SITE["title"]} · 更新日志')
     desc = SITE["description_en"] if lang == "en" else SITE["description"]
@@ -821,12 +976,17 @@ def build_simple_pages(lang, base):
 
 def build_feed(lang):
     games = sorted_all(GAMES["games"])
+    deals = sorted(DEALS["deals"], key=lambda d: d["ends"])
     site_url = SITE["url"].rstrip("/")
     if lang == "en":
         items = "".join(
             f'<item><title>{esc(g["title"])} — claim by {esc(g.get("claim_by_label", "TBC"))}</title>'
             f'<link>{esc(g["link"])}</link><description>{esc(g["en_summary"])}</description></item>'
             for g in games)
+        items += "".join(
+            f'<item><title>{esc(d["title"])} — -{d["discount"]}% ${d["price"]:.2f} (was ${d["original"]:.2f}), ends {esc(d["ends_label"])}</title>'
+            f'<link>{esc(d["link"])}</link><description>{esc(d["en_summary"])}</description></item>'
+            for d in deals)
         return ('<?xml version="1.0" encoding="UTF-8"?>\n'
                 f'<rss version="2.0"><channel><title>{esc(SITE["title_en"])}</title>'
                 f'<link>{site_url}/en/</link><description>Weekly free-games claim calendar</description>'
@@ -835,6 +995,10 @@ def build_feed(lang):
         f'<item><title>{esc(g["title"])} — {esc("截止 " + g.get("claim_by_label", "待公布"))}</title>'
         f'<link>{esc(g["link"])}</link><description>{esc(g["zh_summary"])}</description></item>'
         for g in games)
+    items += "".join(
+        f'<item><title>{esc(d["title"])} — -{d["discount"]}% ${d["price"]:.2f}（原价 ${d["original"]:.2f}），截止 {esc(d["ends_label"])}</title>'
+        f'<link>{esc(d["link"])}</link><description>{esc(d["zh_summary"])}</description></item>'
+        for d in deals)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             f'<rss version="2.0"><channel><title>{esc(SITE["name"])}</title>'
             f'<link>{site_url}/</link><description>每周免费游戏领取日历</description>'
@@ -850,8 +1014,11 @@ def build_sitemap():
             urls.append(f"{site_url}/{prefix}{rel}")
         urls.append(f"{site_url}/{prefix}terms.html")
         urls.append(f"{site_url}/{prefix}privacy.html")
+        urls.append(f"{site_url}/{prefix}topics/steam-deals.html")
         for g in GAMES["games"]:
             urls.append(f"{site_url}/{prefix}items/{g['id']}.html")
+        for d in DEALS["deals"]:
+            urls.append(f"{site_url}/{prefix}items/{d['id']}.html")
     body = "".join(f"<url><loc>{esc(u)}</loc><lastmod>2026-11-17</lastmod></url>" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
