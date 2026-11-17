@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://staroltest.github.io/free-game-hot/sitemap.xml
