@@ -1,0 +1,33 @@
+{
+ "comment": "2026-11-17 verified. Epic free-games page and Luna claims page are public pages, not RSS feeds; check them live each round. Steam and GOG have no free game running this week (checked 2026-11-17).",
+ "sources": [
+  {
+   "id": "epic-free",
+   "name": "Epic Games Store Free Games",
+   "tier": "T1",
+   "url": "https://store.epicgames.com/free-games",
+   "category_hint": "epic"
+  },
+  {
+   "id": "prime-luna",
+   "name": "Amazon Luna Claims",
+   "tier": "T1",
+   "url": "https://luna.amazon.com/claims",
+   "category_hint": "prime"
+  },
+  {
+   "id": "steam-free",
+   "name": "Steam Free to Keep",
+   "tier": "T2",
+   "url": "https://store.steampowered.com/search/?maxprice=free",
+   "category_hint": "steam_gog"
+  },
+  {
+   "id": "gog-free",
+   "name": "GOG Free Games",
+   "tier": "T2",
+   "url": "https://www.gog.com/games?price=free",
+   "category_hint": "steam_gog"
+  }
+ ]
+}
