@@ -49,6 +49,22 @@
       ]
     },
     {
+      "key": "steam_deals",
+      "label": "Steam 大折扣",
+      "label_en": "Steam big deals",
+      "keywords": [
+        "Steam",
+        "折扣",
+        "discount",
+        "特卖",
+        "sale",
+        "大折扣",
+        "big deal",
+        "降价",
+        "便宜"
+      ]
+    },
+    {
       "key": "calendar",
       "label": "领取日历",
       "label_en": "Claim calendar",
