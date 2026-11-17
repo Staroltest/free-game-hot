@@ -1,0 +1,251 @@
+{
+ "categories": [
+  {
+   "key": "epic",
+   "label": "Epic 每周免费",
+   "label_en": "Epic weekly free",
+   "keywords": [
+    "Epic",
+    "免费",
+    "free",
+    "每周",
+    "weekly",
+    "领取",
+    "claim",
+    "限时",
+    "limited"
+   ]
+  },
+  {
+   "key": "prime",
+   "label": "Prime 每月领取",
+   "label_en": "Prime monthly claims",
+   "keywords": [
+    "Prime",
+    "Luna",
+    "Amazon",
+    "会员",
+    "membership",
+    "每月",
+    "monthly",
+    "领取",
+    "claim"
+   ]
+  },
+  {
+   "key": "steam_gog",
+   "label": "Steam 与 GOG 限免",
+   "label_en": "Steam and GOG freebies",
+   "keywords": [
+    "Steam",
+    "GOG",
+    "限免",
+    "free",
+    "免费",
+    "领取",
+    "claim",
+    "限时",
+    "limited"
+   ]
+  },
+  {
+   "key": "calendar",
+   "label": "领取日历",
+   "label_en": "Claim calendar",
+   "keywords": [
+    "日历",
+    "calendar",
+    "截止",
+    "deadline",
+    "到期",
+    "expires",
+    "本周",
+    "this week",
+    "下周",
+    "next week"
+   ]
+  }
+ ],
+ "scoring": {
+  "base": 50,
+  "daily_hours": 24,
+  "daily_top": 10,
+  "decay_base": 0.8,
+  "dev_keyword_bonus": 5,
+  "dev_keyword_cap": 25,
+  "dev_keywords": [
+   "模型",
+   "model",
+   "大模型",
+   "LLM",
+   "GPT",
+   "Claude",
+   "Gemini",
+   "开源",
+   "open source",
+   "微调",
+   "fine-tune",
+   "推理",
+   "inference",
+   "多模态",
+   "multimodal",
+   "Agent",
+   "智能体",
+   "提示词",
+   "prompt",
+   "基准",
+   "benchmark",
+   "发布",
+   "release",
+   "新品",
+   "工具",
+   "tool",
+   "API",
+   "本地部署",
+   "Ollama",
+   "Hugging Face",
+   "教程",
+   "tutorial",
+   "指南",
+   "guide",
+   "案例",
+   "case study",
+   "工作流",
+   "workflow",
+   "部署",
+   "deploy",
+   "评测",
+   "review",
+   "对比",
+   "comparison"
+  ],
+  "history_days": 30,
+  "hot_days": 7,
+  "hot_top": 20,
+  "noise_keyword_floor": -15,
+  "noise_keyword_penalty": -5,
+  "noise_keywords": [
+   "抽奖",
+   "红包",
+   "返利",
+   "代购",
+   "空投",
+   "炒币",
+   "币价",
+   "破解版",
+   "免费领取",
+   "壁纸",
+   "cosplay",
+   "mod",
+   "速通",
+   "彩蛋",
+   "壁纸"
+  ],
+  "recency": [
+   {
+    "bonus": 25,
+    "max_hours": 6
+   },
+   {
+    "bonus": 20,
+    "max_hours": 24
+   },
+   {
+    "bonus": 10,
+    "max_hours": 72
+   }
+  ],
+  "selected_hours": 48,
+  "selected_min": 65,
+  "tier_bonus": {
+   "T1": 10,
+   "T2": 0,
+   "T3": -15
+  },
+  "timeline_days": 7,
+  "timeline_max": 100
+ },
+ "site": {
+  "name": "免费游戏HOT",
+  "title": "免费游戏HOT",
+  "title_en": "Free Game HOT",
+  "subtitle": "每周免费领什么，截止前别错过",
+  "subtitle_en": "What is free to claim this week, before the deadline passes",
+  "tagline": "每周免费游戏领取日历：只列能领的，不列过期的。",
+  "tagline_en": "A weekly free-games claim calendar: only what you can still claim.",
+  "description": "每周免费游戏领取日历：Epic 每周免费、Prime 每月领取、Steam 与 GOG 限免，按截止时间排序，只显示标题、一句自己写的简介与原文链接，不转载全文。",
+  "description_en": "A weekly free-games claim calendar: Epic weekly free games, Prime monthly claims, and Steam and GOG freebies, sorted by deadline. Titles, one-line summaries written in our own words, and links only — no full text republished.",
+  "slug": "free-game-hot",
+  "url": "https://staroltest.github.io/free-game-hot/",
+  "repo": "https://github.com/Staroltest/free-game-hot",
+  "mirror_url": "https://free-game-hot.pages.dev",
+  "mcp_url": "",
+  "audience": "想免费领游戏的玩家",
+  "audience_en": "players who want to claim free games",
+  "crawler_name": "free-game-hotBot/1.0",
+  "launch_date": "2026-11-17",
+  "edition_time_cst": "07:00",
+  "timezone": "Asia/Shanghai",
+  "web_analytics_token": "",
+  "footer_note": "本站由 HOT 流水线模板生成，代码按 MIT 协议开源。游戏名与商店链接归原商店所有。",
+  "footer_note_en": "Built with the HOT pipeline template; code is open source under the MIT License. Game names and store links belong to their stores.",
+  "tips": [
+   {
+    "address": "TBH8fAi6Vbr9G4VW3PDm3DugZU6fknr6na",
+    "image": "assets/tip-usdt.png",
+    "label": "USDT · TRC20"
+   },
+   {
+    "address": "7pitxN5xECR2NH2qdhFiSRC3fDdMsmVczqFSY4Zz4v5H",
+    "image": "assets/tip-usdt-sol.png",
+    "label": "USDT · Solana"
+   }
+  ],
+  "about_blocks": [
+   {
+    "h": "定位",
+    "paras": [
+     "免费游戏HOT 是一份每周领取日历：Epic 每周免费游戏、Prime 每月领取、Steam 与 GOG 限免，按截止时间排好，领之前先看一眼。",
+     "Epic 每周四轮换，窗口只有 7 天；Prime 每月分批上架，各自有自己的截止时间。"
+    ]
+   },
+   {
+    "h": "怎么做",
+    "paras": [
+     "采集——公开的商店领取页，每半小时检查一次。",
+     "打分——规则打分（截止临近、相关度、来源），不是 AI 打分。",
+     "出报——只展示标题、一句自己写的简介与原文链接，不转载商店的介绍全文。"
+    ]
+   },
+   {
+    "h": "制作人",
+    "paras": [
+     "Staroltest。"
+    ]
+   }
+  ],
+  "about_blocks_en": [
+   {
+    "h": "What it is",
+    "paras": [
+     "Free Game HOT is a weekly claim calendar: Epic weekly free games, Prime monthly claims, and Steam and GOG freebies, sorted by deadline, so you can check before you claim.",
+     "Epic rotates every Thursday, with a 7-day window; Prime adds games in batches through the month, each with its own deadline."
+    ]
+   },
+   {
+    "h": "How it works",
+    "paras": [
+     "Collect — public store claim pages, checked every 30 minutes.",
+     "Score — rule-based scoring (deadline, relevance, source), not AI scoring.",
+     "Publish — only titles, one-line summaries written in our own words, and links to the originals, no full text republished."
+    ]
+   },
+   {
+    "h": "Made by",
+    "paras": [
+     "Staroltest."
+    ]
+   }
+  ]
+ }
+}
