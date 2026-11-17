@@ -1,6 +1,27 @@
 {
- "comment": "2026-11-17 verified. Epic free-games page and Luna claims page are public pages, not RSS feeds; check them live each round. Steam and GOG have no free game running this week (checked 2026-11-17).",
+ "comment": "2026-11-17 verified. Epic free-games page and Luna claims page are public pages, not RSS feeds; check them live each round. Steam and GOG have no free game running this week (checked 2026-11-17). Steam big discounts are verified per-app on the Steam store (appdetails API) and cross-checked on SteamDB price history; prices are taken from Steam only, never copied from aggregators.",
  "sources": [
+  {
+   "id": "steam-specials",
+   "name": "Steam Specials",
+   "tier": "T1",
+   "url": "https://store.steampowered.com/search/?specials=1",
+   "category_hint": "steam_deals"
+  },
+  {
+   "id": "steam-appdetails",
+   "name": "Steam appdetails API",
+   "tier": "T1",
+   "url": "https://store.steampowered.com/api/appdetails?appids=<appid>&cc=US&filters=price_overview",
+   "category_hint": "steam_deals"
+  },
+  {
+   "id": "steamdb-sales",
+   "name": "SteamDB Sales",
+   "tier": "T1",
+   "url": "https://steamdb.info/sales/",
+   "category_hint": "steam_deals"
+  },
   {
    "id": "epic-free",
    "name": "Epic Games Store Free Games",
