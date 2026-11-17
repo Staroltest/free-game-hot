@@ -1,0 +1,6 @@
+# Free Game HOT
+
+> A weekly free-games claim calendar: Epic weekly free games, Prime monthly claims, and Steam and GOG freebies, sorted by deadline.
+
+## Pages
+- https://staroltest.github.io/free-game-hot/en/
