@@ -90,13 +90,16 @@ def claim_from_label(g, lang):
 
 
 def claim_by_text(g, lang):
-    """Human deadline label, or TBC wording. Never invents a date."""
-    if parse_deadline(g) is None:
+    """Human deadline label, or TBC wording. Never invents a date.
+    Shows the full offline time (date + time, UTC): date-only claim_by
+    means 23:59 UTC, per parse_deadline."""
+    d = parse_deadline(g)
+    if d is None:
         return L(lang, "截止时间尚未公布", "Deadline not published yet")
-    lbl = g.get("claim_by_label", "")
-    if "T" in (g.get("claim_by") or ""):
-        return L(lang, f"截止 {lbl}", f"Claim by {lbl}")
-    return L(lang, f"截止 {lbl}", f"Claim by {lbl}")
+    if lang == "en":
+        day = d.strftime("%b %-d, %Y") if sys.platform != "win32" else d.strftime("%b %d, %Y")
+        return f"Claim by {day} {d.strftime('%H:%M')} UTC"
+    return f"截止 {d.strftime('%Y-%m-%d %H:%M')} UTC"
 
 
 def urgency_pill(g, lang):
@@ -654,15 +657,15 @@ def build_all(lang, base, rel_path):
     games = sorted_all(GAMES["games"])
     title = (f'{SITE["title_en"]} · All Items' if lang == "en" else f'{SITE["title"]} · 全部动态')
     desc = SITE["description_en"] if lang == "en" else SITE["description"]
-    lede = (f'Updated {esc(UPDATED)} (Beijing time)<span class="lede-rest"> · {len(games)} games, sorted by deadline.</span>'
+    lede = (f'Updated {esc(UPDATED)} (Beijing time)<span class="lede-rest"> · {len(games)} games, grouped by claim-by date on a timeline, soonest first.</span>'
             if lang == "en" else
-            f'更新于 {esc(UPDATED)}（北京时间）<span class="lede-rest"> · 共 {len(games)} 款，按截止时间排序。</span>')
+            f'更新于 {esc(UPDATED)}（北京时间）<span class="lede-rest"> · 共 {len(games)} 款，按截止日期排成时间线，从最近的开始。</span>')
     body = (f'<div class="m-title">{esc(L(lang, "全部动态", "All Items"))}</div>'
             f'<h1>{esc(L(lang, "全部动态", "All Items"))}</h1>'
             f'<p class="lede">{lede}</p>'
             f'{filter_row(lang, base)}'
             f'{search_overlay(lang, base, sorted_claimable(GAMES["games"])[:5])}'
-            + "".join(feed_item(g, lang, base=base) for g in games)
+            + f'{day_sections(games, lang, base)}'
             + f'{empty_state(lang)}'
             f'{steam_gog_note(lang, base)}'
             f'<script type="application/json" id="gamesData">{games_data_json(games, lang)}</script>')
