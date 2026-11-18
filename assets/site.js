@@ -65,6 +65,14 @@
       it.style.display = (okCat && okQ) ? '' : 'none';
       if (okCat && okQ) { shown++; }
     });
+    /* Hide day timeline sections whose items are all filtered out. */
+    $$('.day-sec').forEach(function (sec) {
+      var any = false;
+      sec.querySelectorAll('.feed-item').forEach(function (it) {
+        if (it.style.display !== 'none') { any = true; }
+      });
+      sec.style.display = any ? '' : 'none';
+    });
     if (noResult) { noResult.hidden = shown !== 0; }
     $$('.tabs .chip').forEach(function (c) {
       c.classList.toggle('on', c.getAttribute('data-filter') === (cat || 'all'));
