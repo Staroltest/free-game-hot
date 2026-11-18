@@ -25,7 +25,7 @@ DEALS = json.loads((ROOT / "data" / "deals.json").read_text(encoding="utf-8"))
 SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 17, 17, 10, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 18, 17, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
@@ -914,12 +914,14 @@ def build_simple(lang, base, rel_path, active, mtitle, paras):
 
 def build_changelog(lang, base, rel_path):
     if lang == "en":
-        entries = [("2026-11-17", "Added 4 Prime games missed from the October batch: Trash Goblin, Time Travel: Escape Room Game, Caravan SandWitch and WarBreeds — each deadline checked on the Luna claims pages."),
+        entries = [("2026-11-18", "Added 13 Steam big deals: Far Cry 5, FOR HONOR, Call of Duty: Black Ops Cold War / 6, Nioh 3, Marathon, HITMAN World of Assassination, Nioh 2 – The Complete Edition, Lies of P, Persona 5 Royal, Total War: WARHAMMER II, Goat Simulator 3 and Black Mesa — prices and end dates checked on the Steam store and SteamDB, up to 85% off."),
+                   ("2026-11-17", "Added 4 Prime games missed from the October batch: Trash Goblin, Time Travel: Escape Room Game, Caravan SandWitch and WarBreeds — each deadline checked on the Luna claims pages."),
                    ("2026-11-17", "Added Steam big deals: 14 verified deals, up to 85% off — SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23."),
                    ("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
                    ("2026-11-17", "Launched with 13 games: Epic weekly free games, Prime monthly claims, Steam / GOG freebies.")]
     else:
-        entries = [("2026-11-17", "补上 10 月批次遗漏的 4 款 Prime 游戏：Trash Goblin、Time Travel: Escape Room Game、Caravan SandWitch、WarBreeds，截止日已在 Luna 领取页逐一核实。"),
+        entries = [("2026-11-18", "新增 Steam 大折扣 13 款：Far Cry 5、FOR HONOR、使命召唤：黑色行动冷战 / 6、仁王 3、马拉松、HITMAN 暗杀世界、仁王 2 完全版、匹诺曹的谎言、女神异闻录 5 皇家版、全面战争：战锤 2、模拟山羊 3、黑山，价格与截止日已在 Steam 商店与 SteamDB 上逐一核实，最高 85% off。"),
+                   ("2026-11-17", "补上 10 月批次遗漏的 4 款 Prime 游戏：Trash Goblin、Time Travel: Escape Room Game、Caravan SandWitch、WarBreeds，截止日已在 Luna 领取页逐一核实。"),
                    ("2026-11-17", "新增 Steam 大折扣：14 款逐一核实过的折扣，最高 85% off，SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。"),
                    ("2026-11-17", "排版改回模板样式：侧栏、顶栏、底栏、卡片、热点榜。"),
                    ("2026-11-17", "上线：13 款游戏，Epic 每周免费、Prime 每月领取、Steam / GOG 限免。")]
