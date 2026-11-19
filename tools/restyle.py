@@ -24,6 +24,7 @@ GAMES = json.loads((ROOT / "data" / "games.json").read_text(encoding="utf-8"))
 DEALS = json.loads((ROOT / "data" / "deals.json").read_text(encoding="utf-8"))
 SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
+CLARITY_ID = CFG.get("clarity_id") or SITE.get("clarity_id") or ""
 # Data snapshot time; days-left is computed against it, never invented.
 NOW = datetime(2026, 11, 18, 17, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
@@ -487,11 +488,20 @@ def beacon_html():
             f"<!-- End Cloudflare Web Analytics -->")
 
 
+
+def clarity_html():
+    if not CLARITY_ID:
+        return ""
+    return ("<script type=\"text/javascript\">" + "(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};"
+            "t=l.createElement(r);t.async=1;t.src=\"https://www.clarity.ms/tag/\"+i;"
+            "y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})"
+            "(window, document, \"clarity\", \"script\", \"" + CLARITY_ID + "\");</script>")
+
 def page_close(active, base, lang):
     to_top = (f'<button type="button" class="to-top" id="toTop" aria-label="{esc(L(lang, "回到顶部", "Back to top"))}">'
               f'{icon("arrow-up", 18)}</button>')
     return (f"{footer_html(base, lang)}</div></div></div>{to_top}{tabbar_html(active, base, lang)}"
-            f"<script src='{base}assets/site.js'></script>{beacon_html()}</body></html>\n")
+            f"<script src='{base}assets/site.js'></script>{beacon_html()}{clarity_html()}</body></html>\n")
 
 
 def filter_row(lang, base):
