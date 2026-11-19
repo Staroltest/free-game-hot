@@ -192,7 +192,7 @@
     "description": "每周免费游戏领取日历：Epic 每周免费、Prime 每月领取、Steam 与 GOG 限免，按截止时间排序，只显示标题、一句自己写的简介与原文链接，不转载全文。",
     "description_en": "A weekly free-games claim calendar: Epic weekly free games, Prime monthly claims, and Steam and GOG freebies, sorted by deadline. Titles, one-line summaries written in our own words, and links only — no full text republished.",
     "slug": "free-game-hot",
-    "url": "https://free-game-hot.pages.dev",
+    "url": "https://free-game-hot.pages.dev/",
     "repo": "https://github.com/Staroltest/free-game-hot",
     "mirror_url": "https://free-game-hot.pages.dev",
     "mcp_url": "",
