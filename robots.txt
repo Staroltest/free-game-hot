@@ -16,6 +16,9 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
+User-agent: Bytespider
+Disallow: /
+
 User-agent: *
 Allow: /
 Sitemap: https://free-game-hot.pages.dev/sitemap.xml
