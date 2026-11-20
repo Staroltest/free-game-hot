@@ -26,7 +26,7 @@ SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 CLARITY_ID = CFG.get("clarity_id") or SITE.get("clarity_id") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 19, 17, 15, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 20, 10, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
@@ -1037,11 +1037,12 @@ def build_sitemap():
         urls.append(f"{site_url}/{prefix}terms.html")
         urls.append(f"{site_url}/{prefix}privacy.html")
         urls.append(f"{site_url}/{prefix}topics/steam-deals.html")
+        urls.append(f"{site_url}/{prefix}geo-audit.html")
         for g in GAMES["games"]:
             urls.append(f"{site_url}/{prefix}items/{g['id']}.html")
         for d in DEALS["deals"]:
             urls.append(f"{site_url}/{prefix}items/{d['id']}.html")
-    body = "".join(f"<url><loc>{esc(u)}</loc><lastmod>2026-11-17</lastmod></url>" for u in urls)
+    body = "".join(f"<url><loc>{esc(u)}</loc><lastmod>{NOW.date().isoformat()}</lastmod></url>" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
             f"{body}</urlset>")
