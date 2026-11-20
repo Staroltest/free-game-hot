@@ -26,7 +26,7 @@ SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 CLARITY_ID = CFG.get("clarity_id") or SITE.get("clarity_id") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 20, 10, 15, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 20, 17, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
@@ -924,14 +924,16 @@ def build_simple(lang, base, rel_path, active, mtitle, paras):
 
 def build_changelog(lang, base, rel_path):
     if lang == "en":
-        entries = [("2026-11-19", "Epic rotation: Knightica expired and was removed; Mark of the Deep is now claimable until Nov 26, 16:00 UTC; next up are Bread & Fred and Firestone – Idle Clicker Online RPG (Nov 26 – Dec 3). Alien: Isolation did not go free as announced — the Epic free page and store search both show $39.99, so it was removed instead of being listed as free. Prime: Swansong expired and was removed; the other 10 deadlines were checked one by one on Luna with no changes; Werewolf: Earthblood, Clem and Arcadia Fallen still have not appeared on the claims page and stay listed with their dates not yet published. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
+        entries = [("2026-11-20", "Prime: Werewolf: The Apocalypse - Earthblood and CLeM are now claimable until Dec 23 — both appeared on the Luna claims page today, marked 'New'; Arcadia Fallen still has not appeared and stays listed with its date not yet published. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still $39.99, not free. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
+                   ("2026-11-19", "Epic rotation: Knightica expired and was removed; Mark of the Deep is now claimable until Nov 26, 16:00 UTC; next up are Bread & Fred and Firestone – Idle Clicker Online RPG (Nov 26 – Dec 3). Alien: Isolation did not go free as announced — the Epic free page and store search both show $39.99, so it was removed instead of being listed as free. Prime: Swansong expired and was removed; the other 10 deadlines were checked one by one on Luna with no changes; Werewolf: Earthblood, Clem and Arcadia Fallen still have not appeared on the claims page and stay listed with their dates not yet published. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
                    ("2026-11-18", "Added 13 Steam big deals: Far Cry 5, FOR HONOR, Call of Duty: Black Ops Cold War / 6, Nioh 3, Marathon, HITMAN World of Assassination, Nioh 2 – The Complete Edition, Lies of P, Persona 5 Royal, Total War: WARHAMMER II, Goat Simulator 3 and Black Mesa — prices and end dates checked on the Steam store and SteamDB, up to 85% off."),
                    ("2026-11-17", "Added 4 Prime games missed from the October batch: Trash Goblin, Time Travel: Escape Room Game, Caravan SandWitch and WarBreeds — each deadline checked on the Luna claims pages."),
                    ("2026-11-17", "Added Steam big deals: 14 verified deals, up to 85% off — SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23."),
                    ("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
                    ("2026-11-17", "Launched with 13 games: Epic weekly free games, Prime monthly claims, Steam / GOG freebies.")]
     else:
-        entries = [("2026-11-19", "Epic 轮换：Knightica 到期下架；Mark of the Deep 开始可领，至 11 月 26 日 16:00 UTC；下周是 Bread & Fred 与 Firestone – Idle Clicker Online RPG（11 月 26 日至 12 月 3 日）。Alien: Isolation 未如期免费——Epic 领取页与商店搜索均显示 $39.99，已从本站下架，不按预期登记为免费。Prime：Swansong 到期下架；其余 10 款截止日已在 Luna 上逐一核对，无变化；Werewolf: Earthblood、Clem、Arcadia Fallen 仍未出现在领取页，继续标截止日待公布。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
+        entries = [("2026-11-20", "Prime：Werewolf: The Apocalypse - Earthblood 与 CLeM 今天已上架可领，截止 12 月 23 日，Luna 页上标了 New；Arcadia Fallen 仍未出现，继续标截止日待公布。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍是 $39.99，未免费。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
+                   ("2026-11-19", "Epic 轮换：Knightica 到期下架；Mark of the Deep 开始可领，至 11 月 26 日 16:00 UTC；下周是 Bread & Fred 与 Firestone – Idle Clicker Online RPG（11 月 26 日至 12 月 3 日）。Alien: Isolation 未如期免费——Epic 领取页与商店搜索均显示 $39.99，已从本站下架，不按预期登记为免费。Prime：Swansong 到期下架；其余 10 款截止日已在 Luna 上逐一核对，无变化；Werewolf: Earthblood、Clem、Arcadia Fallen 仍未出现在领取页，继续标截止日待公布。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
                    ("2026-11-18", "新增 Steam 大折扣 13 款：Far Cry 5、FOR HONOR、使命召唤：黑色行动冷战 / 6、仁王 3、马拉松、HITMAN 暗杀世界、仁王 2 完全版、匹诺曹的谎言、女神异闻录 5 皇家版、全面战争：战锤 2、模拟山羊 3、黑山，价格与截止日已在 Steam 商店与 SteamDB 上逐一核实，最高 85% off。"),
                    ("2026-11-17", "补上 10 月批次遗漏的 4 款 Prime 游戏：Trash Goblin、Time Travel: Escape Room Game、Caravan SandWitch、WarBreeds，截止日已在 Luna 领取页逐一核实。"),
                    ("2026-11-17", "新增 Steam 大折扣：14 款逐一核实过的折扣，最高 85% off，SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。"),
