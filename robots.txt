@@ -1,3 +1,21 @@
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
 User-agent: *
 Allow: /
-Sitemap: https://staroltest.github.io/free-game-hot/sitemap.xml
+Sitemap: https://free-game-hot.pages.dev/sitemap.xml
