@@ -26,7 +26,7 @@ SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 CLARITY_ID = CFG.get("clarity_id") or SITE.get("clarity_id") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 21, 17, 15, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 22, 17, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
