@@ -26,7 +26,7 @@ SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 CLARITY_ID = CFG.get("clarity_id") or SITE.get("clarity_id") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 23, 17, 15, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 24, 17, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
@@ -262,8 +262,8 @@ def all_data_json(games, lang):
 def deals_block(lang, base):
     n = len(DEALS["deals"])
     return (f'<h2 class="sec">{esc(L(lang, "Steam 大折扣", "Steam big deals"))}</h2>'
-            f'<p>{esc(L(lang, f"本周 Steam 大折扣 {n} 款，最高 85% off：SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。价格以 Steam 商店为准（美元），每款的截止日逐一核实过。",
-                         f"{n} Steam big deals this week, up to 85% off: SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23. Prices are from the Steam store (USD); every deal's end date was checked."))} '
+            f'<p>{esc(L(lang, f"本周 Steam 大折扣 {n} 款，最高 90% off：SEGA 黑五特卖至 11 月 30 日，Steam 周度特卖黑五版 11 月 23–30 日。价格以 Steam 商店为准（美元），每款的截止日逐一核实过。",
+                         f"{n} Steam big deals this week, up to 90% off: SEGA Black Friday sale ends Nov 30, Steam Weeklong Sale Black Friday edition Nov 23–30. Prices are from the Steam store (USD); every deal's end date was checked."))} '
             f'<a href="{base}topics/steam-deals.html">{esc(L(lang, f"查看全部 {n} 款折扣 →", f"See all {n} deals →"))}</a></p>')
 
 
@@ -788,9 +788,9 @@ def build_topics(lang, base, rel_path):
             f'<p class="lede">{esc(L(lang, "按来源浏览：Epic、Prime、Steam / GOG、Steam 大折扣。", "Browse by source: Epic, Prime, Steam / GOG, Steam big deals."))}</p>'
             + "".join(secs)
             + f'<h2 class="sec" id="steam_deals">{esc(DEALS_CAT.get("label_en") or DEALS_CAT["label"] if lang == "en" else DEALS_CAT["label"])} · {len(DEALS["deals"])}</h2>'
-            f'<p>{esc(L(lang, "本周 Steam 大折扣 14 款，最高 85% off：SEGA 黑五特卖至 11 月 30 日，自动战斗 RPG 节 11 月 16–23 日。价格以 Steam 商店为准（美元），每款的截止日逐一核实过。",
-                         "14 Steam big deals this week, up to 85% off: SEGA Black Friday sale ends Nov 30, Auto-Battler RPG Fest Nov 16–23. Prices are from the Steam store (USD); every deal's end date was checked."))} '
-            f'<a href="{base}topics/steam-deals.html">{esc(L(lang, "查看全部 14 款折扣 →", "See all 14 deals →"))}</a></p>'
+            f'<p>{esc(L(lang, f"本周 Steam 大折扣 {len(DEALS["deals"])} 款，最高 90% off：SEGA 黑五特卖至 11 月 30 日，Steam 周度特卖黑五版 11 月 23–30 日。价格以 Steam 商店为准（美元），每款的截止日逐一核实过。",
+                         f"{len(DEALS["deals"])} Steam big deals this week, up to 90% off: SEGA Black Friday sale ends Nov 30, Steam Weeklong Sale Black Friday edition Nov 23–30. Prices are from the Steam store (USD); every deal's end date was checked."))} '
+            f'<a href="{base}topics/steam-deals.html">{esc(L(lang, f"查看全部 {len(DEALS["deals"])} 款折扣 →", f"See all {len(DEALS["deals"])} deals →"))}</a></p>'
             + f'<script type="application/json" id="gamesData">{games_data_json(games, lang)}</script>')
     return page_open("more", title, desc, base, lang, rel_path) + body + page_close("more", base, lang)
 
@@ -798,12 +798,12 @@ def build_topics(lang, base, rel_path):
 def build_deals_topic(lang, base, rel_path):
     deals = DEALS["deals"]
     title = (f'{SITE["title_en"]} · Steam Big Deals' if lang == "en" else f'{SITE["title"]} · Steam 大折扣')
-    desc = (f'Steam big deals this week: {len(deals)} deals, up to 85% off. Prices from the Steam store (USD); every end date checked.'
+    desc = (f'Steam big deals this week: {len(deals)} deals, up to 90% off. Prices from the Steam store (USD); every end date checked.'
             if lang == "en" else
-            f'本周 Steam 大折扣：{len(deals)} 款，最高 85% off。价格以 Steam 商店为准（美元），每款截止日逐一核实过。')
-    lede = (f'Updated {esc(UPDATED)} (Beijing time)<span class="lede-rest"> · {len(deals)} deals, up to 85% off.</span>'
+            f'本周 Steam 大折扣：{len(deals)} 款，最高 90% off。价格以 Steam 商店为准（美元），每款截止日逐一核实过。')
+    lede = (f'Updated {esc(UPDATED)} (Beijing time)<span class="lede-rest"> · {len(deals)} deals, up to 90% off.</span>'
             if lang == "en" else
-            f'更新于 {esc(UPDATED)}（北京时间）<span class="lede-rest"> · 共 {len(deals)} 款，最高 85% off。</span>')
+            f'更新于 {esc(UPDATED)}（北京时间）<span class="lede-rest"> · 共 {len(deals)} 款，最高 90% off。</span>')
     ev_lines = "".join(
         f'<p>{esc(ev.get("name_en") or ev["name"] if lang == "en" else ev["name"])} — '
         f'{esc(ev.get("note_en") or ev["note"] if lang == "en" else ev["note"])}</p>'
@@ -924,7 +924,8 @@ def build_simple(lang, base, rel_path, active, mtitle, paras):
 
 def build_changelog(lang, base, rel_path):
     if lang == "en":
-        entries = [("2026-11-20", "Prime: Werewolf: The Apocalypse - Earthblood and CLeM are now claimable until Dec 23 — both appeared on the Luna claims page today, marked 'New'; Arcadia Fallen still has not appeared and stays listed with its date not yet published. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still $39.99, not free. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
+        entries = [("2026-11-24", "Steam big deals: 4 expired deals were removed (Despot's Game, The Witness, Braid, Goat Simulator 3 — all back to full price on the Steam store and SteamDB), and 10 new deals were added from the Steam Weeklong Sale Black Friday edition, up to 90% off — Detroit: Become Human, Fallout 4, Mortal Kombat 1, Injustice 2, Skyrim Special Edition, Sea of Thieves: 2026 Edition, Borderlands 3, Painkiller, 007 First Light and Deep Rock Galactic: Survivor; prices and end dates checked on the Steam store and SteamDB. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still $39.99, not free. Prime: all 12 deadlines re-checked on Luna with no changes; Arcadia Fallen still has not appeared on the claims page, although it was expected today, and stays listed with its date not yet published."),
+                   ("2026-11-20", "Prime: Werewolf: The Apocalypse - Earthblood and CLeM are now claimable until Dec 23 — both appeared on the Luna claims page today, marked 'New'; Arcadia Fallen still has not appeared and stays listed with its date not yet published. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still $39.99, not free. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
                    ("2026-11-19", "Epic rotation: Knightica expired and was removed; Mark of the Deep is now claimable until Nov 26, 16:00 UTC; next up are Bread & Fred and Firestone – Idle Clicker Online RPG (Nov 26 – Dec 3). Alien: Isolation did not go free as announced — the Epic free page and store search both show $39.99, so it was removed instead of being listed as free. Prime: Swansong expired and was removed; the other 10 deadlines were checked one by one on Luna with no changes; Werewolf: Earthblood, Clem and Arcadia Fallen still have not appeared on the claims page and stay listed with their dates not yet published. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
                    ("2026-11-18", "Added 13 Steam big deals: Far Cry 5, FOR HONOR, Call of Duty: Black Ops Cold War / 6, Nioh 3, Marathon, HITMAN World of Assassination, Nioh 2 – The Complete Edition, Lies of P, Persona 5 Royal, Total War: WARHAMMER II, Goat Simulator 3 and Black Mesa — prices and end dates checked on the Steam store and SteamDB, up to 85% off."),
                    ("2026-11-17", "Added 4 Prime games missed from the October batch: Trash Goblin, Time Travel: Escape Room Game, Caravan SandWitch and WarBreeds — each deadline checked on the Luna claims pages."),
@@ -932,7 +933,8 @@ def build_changelog(lang, base, rel_path):
                    ("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
                    ("2026-11-17", "Launched with 13 games: Epic weekly free games, Prime monthly claims, Steam / GOG freebies.")]
     else:
-        entries = [("2026-11-20", "Prime：Werewolf: The Apocalypse - Earthblood 与 CLeM 今天已上架可领，截止 12 月 23 日，Luna 页上标了 New；Arcadia Fallen 仍未出现，继续标截止日待公布。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍是 $39.99，未免费。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
+        entries = [("2026-11-24", "Steam 大折扣：4 款过期下架（Despot's Game、The Witness、Braid、模拟山羊 3，Steam 商店与 SteamDB 上均已恢复原价），新增 10 款周度特卖黑五版折扣，最高 90% off——底特律：化身为人、辐射 4、真人快打 1、不义联盟 2、上古卷轴 5：天际特别版、盗贼之海：2026 版、无主之地 3、止痛药、007 初露锋芒、深岩银河：幸存者，价格与截止日已在 Steam 商店与 SteamDB 上逐一核实。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍是 $39.99，未免费。Prime：12 款截止日已在 Luna 上逐一复核，无变化；Arcadia Fallen 虽然预计今天上架但仍未出现，继续标截止日待公布。"),
+                   ("2026-11-20", "Prime：Werewolf: The Apocalypse - Earthblood 与 CLeM 今天已上架可领，截止 12 月 23 日，Luna 页上标了 New；Arcadia Fallen 仍未出现，继续标截止日待公布。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍是 $39.99，未免费。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
                    ("2026-11-19", "Epic 轮换：Knightica 到期下架；Mark of the Deep 开始可领，至 11 月 26 日 16:00 UTC；下周是 Bread & Fred 与 Firestone – Idle Clicker Online RPG（11 月 26 日至 12 月 3 日）。Alien: Isolation 未如期免费——Epic 领取页与商店搜索均显示 $39.99，已从本站下架，不按预期登记为免费。Prime：Swansong 到期下架；其余 10 款截止日已在 Luna 上逐一核对，无变化；Werewolf: Earthblood、Clem、Arcadia Fallen 仍未出现在领取页，继续标截止日待公布。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
                    ("2026-11-18", "新增 Steam 大折扣 13 款：Far Cry 5、FOR HONOR、使命召唤：黑色行动冷战 / 6、仁王 3、马拉松、HITMAN 暗杀世界、仁王 2 完全版、匹诺曹的谎言、女神异闻录 5 皇家版、全面战争：战锤 2、模拟山羊 3、黑山，价格与截止日已在 Steam 商店与 SteamDB 上逐一核实，最高 85% off。"),
                    ("2026-11-17", "补上 10 月批次遗漏的 4 款 Prime 游戏：Trash Goblin、Time Travel: Escape Room Game、Caravan SandWitch、WarBreeds，截止日已在 Luna 领取页逐一核实。"),
