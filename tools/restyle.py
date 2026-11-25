@@ -599,8 +599,8 @@ def games_data_json(games, lang):
 
 def steam_gog_note(lang, base):
     return (f'<h2 class="sec">{esc(L(lang, "Steam / GOG 限免", "Steam / GOG freebies"))}</h2>'
-            f'<p>{esc(L(lang, "本周 Steam 和 GOG 没有正在进行的免费领取（2026-11-19 核查）。有新的限免会第一时间加进来。",
-                         "No free Steam or GOG game is running this week (checked 2026-11-19). New freebies will be added here as soon as they appear."))}</p>')
+            f'<p>{esc(L(lang, "本周 Steam 和 GOG 没有正在进行的免费领取（2026-11-25 核查）。有新的限免会第一时间加进来。",
+                         "No free Steam or GOG game is running this week (checked 2026-11-25). New freebies will be added here as soon as they appear."))}</p>')
 
 
 def why_section(lang):
