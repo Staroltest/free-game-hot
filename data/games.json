@@ -2,19 +2,6 @@
   "games": [
     {
       "category": "epic",
-      "claim_by": "2026-11-26T16:00:00Z",
-      "claim_by_label": "2026-11-19 to 2026-11-26, 16:00 UTC",
-      "claim_from": "2026-11-19T16:00:00Z",
-      "en_summary": "A pirate action-adventure that fights its way through shipwrecks and sea monsters.",
-      "id": "mark-of-the-deep-epic",
-      "link": "https://store.epicgames.com/free-games",
-      "source": "Epic Games Store",
-      "status": "claimable",
-      "title": "Mark of the Deep",
-      "zh_summary": "海盗题材的动作冒险，在沉船与海怪之间一路打过去。"
-    },
-    {
-      "category": "epic",
       "claim_by": "2026-12-03T16:00:00Z",
       "claim_by_label": "2026-11-26 to 2026-12-03, 16:00 UTC",
       "claim_from": "2026-11-26T16:00:00Z",
@@ -22,7 +9,7 @@
       "id": "bread-and-fred-epic",
       "link": "https://store.epicgames.com/free-games",
       "source": "Epic Games Store",
-      "status": "coming_next",
+      "status": "claimable",
       "title": "Bread & Fred",
       "zh_summary": "两只企鹅用绳子拴在一起，合作往雪山顶上爬，一步踩空就一起掉下去。"
     },
@@ -35,7 +22,7 @@
       "id": "firestone-epic",
       "link": "https://store.epicgames.com/free-games",
       "source": "Epic Games Store",
-      "status": "coming_next",
+      "status": "claimable",
       "title": "Firestone – Idle Clicker Online RPG",
       "zh_summary": "放置类在线角色扮演，队伍自己打怪刷宝，你回来收战利品、点升级。"
     },
@@ -132,19 +119,6 @@
     },
     {
       "category": "prime",
-      "claim_by": "2026-11-25",
-      "claim_by_label": "2026-11-25",
-      "claim_from": "2026-10-01",
-      "en_summary": "A World War I psychological horror game that moves back and forth between nightmares and reality.",
-      "id": "ad-infinitum-prime",
-      "link": "https://luna.amazon.com/claims",
-      "source": "Prime Gaming / Amazon Luna",
-      "status": "claimable",
-      "title": "Ad Infinitum",
-      "zh_summary": "一战背景的心理恐怖游戏，在噩梦和现实之间来回走。"
-    },
-    {
-      "category": "prime",
       "claim_by": "2026-12-02",
       "claim_by_label": "2026-12-02",
       "claim_from": "2026-10-01",
@@ -171,19 +145,6 @@
     },
     {
       "category": "prime",
-      "claim_by": "2026-11-25",
-      "claim_by_label": "2026-11-25",
-      "claim_from": "2026-10-22",
-      "en_summary": "Escape-room puzzles and hidden objects built around a broken time machine.",
-      "id": "time-travel-escape-room-prime",
-      "link": "https://luna.amazon.com/claims",
-      "source": "Prime Gaming / Amazon Luna",
-      "status": "claimable",
-      "title": "Time Travel: Escape Room Game",
-      "zh_summary": "围绕一台坏掉的时间机器解谜、找隐藏物品的密室逃脱。"
-    },
-    {
-      "category": "prime",
       "claim_by": "2026-12-16",
       "claim_by_label": "2026-12-16",
       "claim_from": "2026-10-15",
@@ -207,13 +168,26 @@
       "status": "claimable",
       "title": "WarBreeds",
       "zh_summary": "科幻即时战略，四个氏族为一个陨落的帝国开战。"
+    },
+    {
+      "category": "epic",
+      "claim_by": "2026-12-10T16:00:00Z",
+      "claim_by_label": "2026-12-03 to 2026-12-10, 16:00 UTC",
+      "claim_from": "2026-12-03T16:00:00Z",
+      "en_summary": "A cozy puzzle adventure about running an occult antiques shop — examine strange artefacts, work out what they are, and match them to the townsfolk who need them.",
+      "id": "strange-antiquities-epic",
+      "link": "https://store.epicgames.com/free-games",
+      "source": "Epic Games Store",
+      "status": "coming_next",
+      "title": "Strange Antiquities",
+      "zh_summary": "在神秘古董店里当店员的温馨解谜：仔细检查每件古怪物件，弄清它是什么，再交给真正需要它的镇民。"
     }
   ],
-  "note": "All summaries are written in our own words. No store description text is copied. Claim-by dates re-verified 2026-11-25 on the Epic free-games page and the Luna claims pages: Mark of the Deep is still claimable to Nov 26 16:00 UTC; Alien: Isolation is still not free; Bread & Fred and Firestone – Idle Clicker Online RPG are still next, Nov 26-Dec 3. Arcadia Fallen appeared on the Luna claims page today (Nov 25), marked 'New', claimable through Dec 28, 2026. Ad Infinitum and Time Travel: Escape Room Game are still claimable through Nov 25, 2026 (last day). All other Prime deadlines re-checked on Luna with no changes.",
+  "note": "All summaries are written in our own words. No store description text is copied. Claim-by dates re-verified 2026-11-26 on the Epic free-games page and the Luna claims pages: Bread & Fred and Firestone – Idle Clicker Online RPG are now claimable to Dec 3, 16:00 UTC; Mark of the Deep is gone from the Epic page. Strange Antiquities is next, Dec 3-Dec 10. Ad Infinitum and Time Travel: Escape Room Game are gone from the Luna claims page (last day Nov 25). The other 11 Prime deadlines were re-checked on Luna detail pages with no changes; no new Prime game appeared.",
   "steam_gog": {
-    "note": "No free Steam or GOG game running this week, checked 2026-11-25.",
+    "note": "No free Steam or GOG game running this week, checked 2026-11-26.",
     "status": "none"
   },
-  "updated": "2026-11-25T17:15:00Z",
-  "updated_beijing": "2026-11-26 01:15"
+  "updated": "2026-11-26T17:15:00Z",
+  "updated_beijing": "2026-11-27 01:15"
 }

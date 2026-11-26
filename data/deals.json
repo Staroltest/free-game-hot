@@ -489,6 +489,90 @@
       "price": 2.49,
       "title": "Dishonored",
       "zh_summary": "潜行动作经典，在瘟疫笼罩的城市里当超能力刺客，潜行或硬闯都由你选。"
+    },
+    {
+      "appid": 1259420,
+      "discount": 67,
+      "en_summary": "An open-world survival game: ride a bike through a zombie-filled Oregon, take on hordes, and keep your camp alive.",
+      "ends": "2026-12-01",
+      "ends_label": "2026-12-01",
+      "event": "other",
+      "id": "deal-days-gone",
+      "link": "https://store.steampowered.com/app/1259420/",
+      "original": 39.99,
+      "price": 13.19,
+      "title": "Days Gone",
+      "zh_summary": "开放世界求生：骑着摩托穿行在丧尸遍布的俄勒冈，对付尸潮、守住营地。"
+    },
+    {
+      "appid": 281990,
+      "discount": 70,
+      "en_summary": "A grand strategy game in space: build an empire, meet aliens, and shape a galaxy that never plays the same twice.",
+      "ends": "2026-12-07",
+      "ends_label": "2026-12-07",
+      "event": "other",
+      "id": "deal-stellaris",
+      "link": "https://store.steampowered.com/app/281990/",
+      "original": 49.99,
+      "price": 14.99,
+      "title": "Stellaris",
+      "zh_summary": "太空大战略：建立帝国、接触外星文明，每一局银河都不一样。"
+    },
+    {
+      "appid": 393380,
+      "discount": 60,
+      "en_summary": "A large-scale military shooter built on teamwork: squads, radios and vehicles, where communication wins battles.",
+      "ends": "2026-12-09",
+      "ends_label": "2026-12-09",
+      "event": "other",
+      "id": "deal-squad",
+      "link": "https://store.steampowered.com/app/393380/",
+      "original": 49.99,
+      "price": 19.99,
+      "title": "Squad",
+      "zh_summary": "大场面军事射击：靠小队配合、无线电和载具打仗，沟通就是战斗力。"
+    },
+    {
+      "appid": 1222700,
+      "discount": 80,
+      "en_summary": "A two-player co-op escape story: two prisoners break out together — one screen each, one plan, no solo mode.",
+      "ends": "2026-12-03",
+      "ends_label": "2026-12-03",
+      "event": "other",
+      "id": "deal-a-way-out",
+      "link": "https://store.steampowered.com/app/1222700/",
+      "original": 29.99,
+      "price": 5.99,
+      "title": "A Way Out",
+      "zh_summary": "双人合作逃亡故事：两名囚犯一起越狱，分屏合作，没有单人模式。"
+    },
+    {
+      "appid": 219990,
+      "discount": 80,
+      "en_summary": "A dark action RPG about loot and builds: fight through a grim world, collect gear, and shape your own class.",
+      "ends": "2026-11-30",
+      "ends_label": "2026-11-30",
+      "event": "other",
+      "id": "deal-grim-dawn",
+      "link": "https://store.steampowered.com/app/219990/",
+      "original": 24.99,
+      "price": 4.99,
+      "title": "Grim Dawn",
+      "zh_summary": "黑暗风刷宝动作 RPG：在阴沉世界里打怪、捡装备，自由搭配职业。"
+    },
+    {
+      "appid": 379720,
+      "discount": 80,
+      "en_summary": "A fast, brutal shooter against the hordes of Hell — glory kills, heavy metal, and no time to hide.",
+      "ends": "2026-11-30",
+      "ends_label": "2026-11-30",
+      "event": "other",
+      "id": "deal-doom",
+      "link": "https://store.steampowered.com/app/379720/",
+      "original": 19.99,
+      "price": 3.99,
+      "title": "DOOM",
+      "zh_summary": "快节奏的残酷射击：对着地狱大军一路杀过去，处决、重金属，根本没空躲。"
     }
   ],
   "events": [
@@ -529,7 +613,7 @@
       "note_en": "Nov 23-30, up to 90% off, 6,000+ games and DLC; each deal below ends on its own date per SteamDB"
     }
   ],
-  "note": "All prices and discounts verified 2026-11-25 on the Steam store (appdetails API, USD) and cross-checked on SteamDB price history; end dates are per-app from SteamDB. 2 deals expired and were removed 2026-11-25 (428: Shibuya Scramble, AI: THE SOMNIUM FILES - nirvanA Initiative); 4 new deals added 2026-11-25 from the Steam Weeklong Sale Black Friday edition (Celeste, Neon White, South Park: The Stick of Truth, Dishonored). ULTRAKILL (-25%) and Split Fiction (-40%) were checked and excluded: below the 50% threshold. No Autumn Sale dates are listed: the Steam Autumn Sale ended Oct 1-8, 2026 and there is no Autumn Sale in November 2026. Summaries are written in our own words; no store description text is copied.",
-  "updated": "2026-11-25T17:15:00Z",
-  "updated_beijing": "2026-11-26 01:15"
+  "note": "All prices and discounts verified 2026-11-26 on the Steam store (appdetails API, USD) and cross-checked on SteamDB price history; end dates are per-app from SteamDB. No deals expired today: 9 Kings (ends Nov 26) was still live at check time. 6 new deals added 2026-11-26 (Days Gone, Stellaris, Squad, A Way Out, Grim Dawn, DOOM), up to 80% off. The other 35 deals were re-checked on the Steam store — prices and discounts unchanged. No Autumn Sale dates are listed: the Steam Autumn Sale ended Oct 1-8, 2026 and there is no Autumn Sale in November 2026. Summaries are written in our own words; no store description text is copied.",
+  "updated": "2026-11-26T17:15:00Z",
+  "updated_beijing": "2026-11-27 01:15"
 }

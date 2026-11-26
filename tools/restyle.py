@@ -26,7 +26,7 @@ SITE = CFG["site"]
 BEACON = CFG.get("web_analytics_token") or SITE.get("web_analytics_token") or ""
 CLARITY_ID = CFG.get("clarity_id") or SITE.get("clarity_id") or ""
 # Data snapshot time; days-left is computed against it, never invented.
-NOW = datetime(2026, 11, 25, 17, 15, tzinfo=timezone.utc)
+NOW = datetime(2026, 11, 26, 17, 15, tzinfo=timezone.utc)
 UPDATED = GAMES["updated_beijing"]  # "2026-11-17 18:00"
 
 CATS = {c["key"]: c for c in CFG["categories"] if c["key"] in ("epic", "prime", "steam_gog", "steam_deals")}
@@ -35,8 +35,8 @@ DEALS_CAT = CATS["steam_deals"]
 EVENTS = {e["id"]: e for e in DEALS["events"]}
 
 # Featured picks: soonest to expire first, plus each rotation's headliner — exactly 4.
-FEATURED_IDS = ["mark-of-the-deep-epic", "kiborg-prime",
-                "trash-goblin-prime", "jurassic-world-evolution-2-prime"]
+FEATURED_IDS = ["bread-and-fred-epic", "firestone-epic",
+                "kiborg-prime", "trash-goblin-prime"]
 
 
 def esc(s):
@@ -599,8 +599,8 @@ def games_data_json(games, lang):
 
 def steam_gog_note(lang, base):
     return (f'<h2 class="sec">{esc(L(lang, "Steam / GOG 限免", "Steam / GOG freebies"))}</h2>'
-            f'<p>{esc(L(lang, "本周 Steam 和 GOG 没有正在进行的免费领取（2026-11-25 核查）。有新的限免会第一时间加进来。",
-                         "No free Steam or GOG game is running this week (checked 2026-11-25). New freebies will be added here as soon as they appear."))}</p>')
+            f'<p>{esc(L(lang, "本周 Steam 和 GOG 没有正在进行的免费领取（2026-11-26 核查）。有新的限免会第一时间加进来。",
+                         "No free Steam or GOG game is running this week (checked 2026-11-26). New freebies will be added here as soon as they appear."))}</p>')
 
 
 def why_section(lang):
@@ -924,7 +924,8 @@ def build_simple(lang, base, rel_path, active, mtitle, paras):
 
 def build_changelog(lang, base, rel_path):
     if lang == "en":
-        entries = [("2026-11-25", "Prime: Arcadia Fallen is now claimable until Dec 28, 2026 — it appeared on the Luna claims page today, marked 'New', after being expected since Nov 24. Ad Infinitum and Time Travel: Escape Room Game are still claimable today (Nov 25, last day) and leave the featured picks; Kiborg and Trash Goblin (both to Dec 2) take their place. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still not free. Steam big deals: 2 expired deals were removed (428: Shibuya Scramble, AI: THE SOMNIUM FILES - nirvanA Initiative — both back to full price on the Steam store and SteamDB), and 4 new deals were added from the Steam Weeklong Sale Black Friday edition — Celeste, Neon White, South Park: The Stick of Truth and Dishonored, up to 75% off; ULTRAKILL (-25%) and Split Fiction (-40%) were checked and excluded, below the 50% threshold. The other 31 deals were re-checked on the Steam store — prices and discounts unchanged."),
+        entries = [("2026-11-26", "Epic rotation: Mark of the Deep expired and was removed; Bread & Fred and Firestone – Idle Clicker Online RPG are now claimable until Dec 3, 16:00 UTC; next up is Strange Antiquities (Dec 3 – Dec 10). Prime: Ad Infinitum and Time Travel: Escape Room Game expired on Nov 25 and were removed; the other 11 deadlines were re-checked on Luna with no changes, and no new Prime game appeared. Steam big deals: no expired deals — 9 Kings is still live today (its sale ends later today); 6 new deals were added, up to 80% off — Days Gone, Stellaris, Squad, A Way Out, Grim Dawn and DOOM; prices and end dates checked on the Steam store and SteamDB. The other 35 deals were re-checked on the Steam store — prices and discounts unchanged. No free Steam or GOG game is running this week."),
+                   ("2026-11-25", "Prime: Arcadia Fallen is now claimable until Dec 28, 2026 — it appeared on the Luna claims page today, marked 'New', after being expected since Nov 24. Ad Infinitum and Time Travel: Escape Room Game are still claimable today (Nov 25, last day) and leave the featured picks; Kiborg and Trash Goblin (both to Dec 2) take their place. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still not free. Steam big deals: 2 expired deals were removed (428: Shibuya Scramble, AI: THE SOMNIUM FILES - nirvanA Initiative — both back to full price on the Steam store and SteamDB), and 4 new deals were added from the Steam Weeklong Sale Black Friday edition — Celeste, Neon White, South Park: The Stick of Truth and Dishonored, up to 75% off; ULTRAKILL (-25%) and Split Fiction (-40%) were checked and excluded, below the 50% threshold. The other 31 deals were re-checked on the Steam store — prices and discounts unchanged."),
                    ("2026-11-24", "Steam big deals: 4 expired deals were removed (Despot's Game, The Witness, Braid, Goat Simulator 3 — all back to full price on the Steam store and SteamDB), and 10 new deals were added from the Steam Weeklong Sale Black Friday edition, up to 90% off — Detroit: Become Human, Fallout 4, Mortal Kombat 1, Injustice 2, Skyrim Special Edition, Sea of Thieves: 2026 Edition, Borderlands 3, Painkiller, 007 First Light and Deep Rock Galactic: Survivor; prices and end dates checked on the Steam store and SteamDB. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still $39.99, not free. Prime: all 12 deadlines re-checked on Luna with no changes; Arcadia Fallen still has not appeared on the claims page, although it was expected today, and stays listed with its date not yet published."),
                    ("2026-11-20", "Prime: Werewolf: The Apocalypse - Earthblood and CLeM are now claimable until Dec 23 — both appeared on the Luna claims page today, marked 'New'; Arcadia Fallen still has not appeared and stays listed with its date not yet published. Epic: Mark of the Deep is still claimable until Nov 26, 16:00 UTC; Alien: Isolation is still $39.99, not free. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
                    ("2026-11-19", "Epic rotation: Knightica expired and was removed; Mark of the Deep is now claimable until Nov 26, 16:00 UTC; next up are Bread & Fred and Firestone – Idle Clicker Online RPG (Nov 26 – Dec 3). Alien: Isolation did not go free as announced — the Epic free page and store search both show $39.99, so it was removed instead of being listed as free. Prime: Swansong expired and was removed; the other 10 deadlines were checked one by one on Luna with no changes; Werewolf: Earthblood, Clem and Arcadia Fallen still have not appeared on the claims page and stay listed with their dates not yet published. All 27 Steam big deals were re-checked on the Steam store — prices and discounts unchanged, none expired."),
@@ -934,7 +935,8 @@ def build_changelog(lang, base, rel_path):
                    ("2026-11-17", "Restyled to the hot-site-template layout: sidebar, topbar, tabbar, feed-item cards, hot list."),
                    ("2026-11-17", "Launched with 13 games: Epic weekly free games, Prime monthly claims, Steam / GOG freebies.")]
     else:
-        entries = [("2026-11-25", "Prime：Arcadia Fallen 今天已上架可领，截止 12 月 28 日，Luna 页上标了 New（自 11 月 24 日预期至今终于出现）。Ad Infinitum 与 Time Travel: Escape Room Game 今天仍可领（11 月 25 日最后一天），退出精选，由 Kiborg 与 Trash Goblin（均至 12 月 2 日）接替。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍未免费。Steam 大折扣：2 款过期下架（428：涩谷、AI：梦境档案 涅槃肇始，Steam 商店与 SteamDB 上均已恢复原价），新增 4 款周度特卖黑五版折扣——Celeste、Neon White、南方公园：真理之杖、Dishonored，最高 75% off；ULTRAKILL（-25%）与 Split Fiction（-40%）已核实，未达 50% 门槛，未列入。其余 31 款已在 Steam 商店逐一复核，价格与折扣无变化。"),
+        entries = [("2026-11-26", "Epic 轮换：Mark of the Deep 到期下架；Bread & Fred 与 Firestone – Idle Clicker Online RPG 开始可领，至 12 月 3 日 16:00 UTC；下周是 Strange Antiquities（12 月 3 日至 12 月 10 日）。Prime：Ad Infinitum 与 Time Travel: Escape Room Game 已于 11 月 25 日到期下架；其余 11 款截止日已在 Luna 上逐一复核，无变化，无新上架。Steam 大折扣：无过期下架——9 Kings 今天仍在售（今天晚些时候结束）；新增 6 款折扣，最高 80% off——Days Gone、Stellaris、Squad、A Way Out、Grim Dawn、DOOM，价格与截止日已在 Steam 商店与 SteamDB 上逐一核实。其余 35 款已在 Steam 商店逐一复核，价格与折扣无变化。本周 Steam 与 GOG 没有正在进行的免费领取。"),
+                   ("2026-11-25", "Prime：Arcadia Fallen 今天已上架可领，截止 12 月 28 日，Luna 页上标了 New（自 11 月 24 日预期至今终于出现）。Ad Infinitum 与 Time Travel: Escape Room Game 今天仍可领（11 月 25 日最后一天），退出精选，由 Kiborg 与 Trash Goblin（均至 12 月 2 日）接替。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍未免费。Steam 大折扣：2 款过期下架（428：涩谷、AI：梦境档案 涅槃肇始，Steam 商店与 SteamDB 上均已恢复原价），新增 4 款周度特卖黑五版折扣——Celeste、Neon White、南方公园：真理之杖、Dishonored，最高 75% off；ULTRAKILL（-25%）与 Split Fiction（-40%）已核实，未达 50% 门槛，未列入。其余 31 款已在 Steam 商店逐一复核，价格与折扣无变化。"),
                    ("2026-11-24", "Steam 大折扣：4 款过期下架（Despot's Game、The Witness、Braid、模拟山羊 3，Steam 商店与 SteamDB 上均已恢复原价），新增 10 款周度特卖黑五版折扣，最高 90% off——底特律：化身为人、辐射 4、真人快打 1、不义联盟 2、上古卷轴 5：天际特别版、盗贼之海：2026 版、无主之地 3、止痛药、007 初露锋芒、深岩银河：幸存者，价格与截止日已在 Steam 商店与 SteamDB 上逐一核实。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍是 $39.99，未免费。Prime：12 款截止日已在 Luna 上逐一复核，无变化；Arcadia Fallen 虽然预计今天上架但仍未出现，继续标截止日待公布。"),
                    ("2026-11-20", "Prime：Werewolf: The Apocalypse - Earthblood 与 CLeM 今天已上架可领，截止 12 月 23 日，Luna 页上标了 New；Arcadia Fallen 仍未出现，继续标截止日待公布。Epic：Mark of the Deep 仍可领至 11 月 26 日 16:00 UTC；Alien: Isolation 仍是 $39.99，未免费。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),
                    ("2026-11-19", "Epic 轮换：Knightica 到期下架；Mark of the Deep 开始可领，至 11 月 26 日 16:00 UTC；下周是 Bread & Fred 与 Firestone – Idle Clicker Online RPG（11 月 26 日至 12 月 3 日）。Alien: Isolation 未如期免费——Epic 领取页与商店搜索均显示 $39.99，已从本站下架，不按预期登记为免费。Prime：Swansong 到期下架；其余 10 款截止日已在 Luna 上逐一核对，无变化；Werewolf: Earthblood、Clem、Arcadia Fallen 仍未出现在领取页，继续标截止日待公布。Steam 大折扣 27 款已在 Steam 商店逐一复核，价格与折扣无变化，无过期。"),

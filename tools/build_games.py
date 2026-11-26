@@ -15,8 +15,8 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import restyle as R
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-NEW_IDS = ["trash-goblin-prime", "time-travel-escape-room-prime",
-           "caravan-sandwitch-prime", "warbreeds-prime"]
+NEW_IDS = ["strange-antiquities-epic", "bread-and-fred-epic",
+           "firestone-epic"]
 
 
 def write(rel, text):
